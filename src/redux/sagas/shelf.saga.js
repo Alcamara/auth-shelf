@@ -53,16 +53,15 @@ function* removeShelfItem(action) {
 
 function* addShelfItem(action) {
     try {
+        // This will add the latest item to our database
         yield axios.post('/api/shelf', action.payload);
-        yield put({
-            type: 'SET_SHELF',
-            payload: action.payload
-        });
     }
     catch (error) {
         console.log('Error in POST saga', error);
         return;
     }
+
+    // Call the action to get our updated list from the database
     yield put({type: 'FETCH_SHELF'});
 }
 
