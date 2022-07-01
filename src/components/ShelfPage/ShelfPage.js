@@ -35,7 +35,7 @@ function ShelfPage() {
               {item.description}
               </td>
               <td>
-                <img src={item.image_url} alt={item.description}/>
+                <img src={item.image_url} alt={item.description} height='100'/>
               </td>
               <td>
                 <button onClick={()=>{
