@@ -24,7 +24,6 @@ function* fetchShelf() {
   }
 }
 
-
 // worker Saga: will be fired on "REMOVE_SHELF_ITEM"
 function* removeShelfItem(action) {
   try {
@@ -52,11 +51,28 @@ function* removeShelfItem(action) {
 
 }
 
-
 function* shelfSaga() {
   yield takeLatest('FETCH_SHELF', fetchShelf);
   // Add the DELETE action call to the shelf listener
   yield takeLatest('REMOVE_SHELF_ITEM', removeShelfItem)
+
+function* addShelfItem(action) {
+    try {
+        yield axios.post('/api/shelf', action.payload);
+        yield put({
+            type: 'ADD_SHELF_ITEM',
+            payload: action.payload
+        });
+    }
+    catch (error) {
+        console.log('Error in POST saga', error);
+    }
+    yield put({type: 'FETCH_SHELF'});
+}
+
+function* shelfSaga() {
+  yield takeLatest('FETCH_SHELF', fetchShelf);
+  yield takeLatest('ADD_SHELF_ITEM', addShelfItem);
 }
 
 export default shelfSaga;
