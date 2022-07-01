@@ -66,6 +66,7 @@ function* addShelfItem(action) {
     }
     catch (error) {
         console.log('Error in POST saga', error);
+        return;
     }
     yield put({type: 'FETCH_SHELF'});
 }
