@@ -30,7 +30,7 @@ function ShelfPage() {
         </thead>
         <tbody>
           {shelfItems && shelfItems.map(item => (
-            <tr>
+            <tr key={item.id}>
               <td>
               {item.description}
               </td>
@@ -38,7 +38,11 @@ function ShelfPage() {
               {item.image_url}
               </td>
               <td>
-                <button>
+                <button onClick={()=>{
+                  dispatch({
+                    type:item.id
+                  })
+                }}>
                   DEL
                 </button>
               </td>
