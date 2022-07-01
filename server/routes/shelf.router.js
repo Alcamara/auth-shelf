@@ -38,7 +38,7 @@ router.post('/', rejectUnauthenticated, (req, res) => {
   pool.query(sqlQuery, sqlParams)
   .then((results) => {
     console.log('POST is sending', results.rows);
-    res.send(results.rows);
+    res.sendStatus(201);
   })
   .catch((err) => {
     console.log('error in post router', err);
