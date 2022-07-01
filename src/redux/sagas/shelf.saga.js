@@ -55,6 +55,7 @@ function* shelfSaga() {
   yield takeLatest('FETCH_SHELF', fetchShelf);
   // Add the DELETE action call to the shelf listener
   yield takeLatest('REMOVE_SHELF_ITEM', removeShelfItem)
+}
 
 function* addShelfItem(action) {
     try {
