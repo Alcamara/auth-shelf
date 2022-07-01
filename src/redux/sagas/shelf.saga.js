@@ -51,11 +51,6 @@ function* removeShelfItem(action) {
 
 }
 
-function* shelfSaga() {
-  yield takeLatest('FETCH_SHELF', fetchShelf);
-  // Add the DELETE action call to the shelf listener
-  yield takeLatest('REMOVE_SHELF_ITEM', removeShelfItem)
-
 function* addShelfItem(action) {
     try {
         yield axios.post('/api/shelf', action.payload);
@@ -74,6 +69,7 @@ function* addShelfItem(action) {
 function* shelfSaga() {
   yield takeLatest('FETCH_SHELF', fetchShelf);
   yield takeLatest('ADD_SHELF_ITEM', addShelfItem);
+  yield takeLatest('REMOVE_SHELF_ITEM', removeShelfItem)
 }
 
 export default shelfSaga;
