@@ -55,7 +55,7 @@ function* addShelfItem(action) {
     try {
         yield axios.post('/api/shelf', action.payload);
         yield put({
-            type: 'ADD_SHELF_ITEM',
+            type: 'SET_SHELF',
             payload: action.payload
         });
     }
