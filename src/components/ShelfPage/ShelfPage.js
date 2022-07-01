@@ -15,7 +15,7 @@ function ShelfPage() {
   }, [])
 
   const shelfItems = useSelector(store => store.shelfItems);
-  console.log('>>>>>>>>>>>>>>>>>>', shelfItems);
+  
   return (
     <div className="container">
       <h2>Shelf</h2>
@@ -35,7 +35,7 @@ function ShelfPage() {
               {item.description}
               </td>
               <td>
-              {item.image_url}
+                <img src={item.image_url} alt={item.description}/>
               </td>
               <td>
                 <button onClick={()=>{
