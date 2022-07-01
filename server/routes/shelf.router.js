@@ -67,12 +67,14 @@ router.delete('/:id', rejectUnauthenticated, (req, res) => {
   `
 
   const sqlParams = [
-    userId,    // Specific user
     shelfItem, // Specific shelf item
+    userId,    // Specific user
   ]
 
   pool.query(sqlQuery, sqlParams)
   .then(response => {
+
+    console.log(response.rows, "This was the response")
 
     if (response.rows.length) {
       // Send a 200 response indicating a row was deleted
