@@ -24,6 +24,38 @@ function* fetchShelf() {
   }
 }
 
+// worker Saga: will be fired on "REMOVE_SHELF_ITEM"
+function* removeShelfItem(action) {
+  try {
+    // Set the headers to handle JSON formatted data (not really
+    // needed for a DELETE route, but good to know). Sends the
+    // user credentials that allows our database to only do
+    // functions tied to that specific user
+    const config = {
+      headers: { 'Content-Type': 'application/json' },
+      withCredentials: true,
+    }
+  
+    // Send a axios DELETE request with the shelf item's
+    // ID in the URL
+    const resposne = yield axios.delete(`/api/shelf/${action.payload.id}`)
+  }
+  catch (error) {
+    console.log(`Error in removeShelfItem DELETE with ${err}`)
+    // Exit out of the removeShelfItem function if an error occurred
+    return
+  }
+
+  // Call the dispatch function to 
+  yield put({ type: "FETCH_SHELF" })
+
+}
+
+function* shelfSaga() {
+  yield takeLatest('FETCH_SHELF', fetchShelf);
+  // Add the DELETE action call to the shelf listener
+  yield takeLatest('REMOVE_SHELF_ITEM', removeShelfItem)
+
 function* addShelfItem(action) {
     try {
         yield axios.post('/api/shelf', action.payload);

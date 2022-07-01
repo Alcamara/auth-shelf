@@ -1,7 +1,7 @@
 const express = require('express');
 const pool = require('../modules/pool');
 const router = express.Router();
-const {rejectUnauthenticated} = require('../modules/authentication-middleware');
+const { rejectUnauthenticated } = require('../modules/authentication-middleware');
 
 /**
  * Get all of the items on the shelf
@@ -49,8 +49,47 @@ router.post('/', rejectUnauthenticated, (req, res) => {
 /**
  * Delete an item if it's something the logged in user added
  */
-router.delete('/:id', (req, res) => {
+router.delete('/:id', rejectUnauthenticated, (req, res) => {
   // endpoint functionality
+
+  // Get the user as a variable
+  const userId = req.user.id
+  // Get the shelf item from the url
+  const shelfItem = req.params.id
+
+  // Construct the SQL Query that will delete the selected item
+  // if the user has proper permissions
+  const sqlQuery = `
+    DELETE FROM item
+    WHERE item.id = $1
+    AND item.user_id = $2
+    RETURNING *
+  `
+
+  const sqlParams = [
+    userId,    // Specific user
+    shelfItem, // Specific shelf item
+  ]
+
+  pool.query(sqlQuery, sqlParams)
+  .then(response => {
+
+    if (response.rows.length) {
+      // Send a 200 response indicating a row was deleted
+      res.sendStatus(200)
+      return
+    }
+
+    // Otherwise, send a 401 response indicating that the
+    // incorrect permissions are missing
+    res.sendStatus(401)
+
+    
+  })
+  .catch(err => {
+    console.log(`Error in the server DELETE route with ${err}`)
+    res.sendStatus(500)
+  })
 });
 
 /**
