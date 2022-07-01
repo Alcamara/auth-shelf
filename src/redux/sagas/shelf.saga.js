@@ -39,10 +39,11 @@ function* removeShelfItem(action) {
   
     // Send a axios DELETE request with the shelf item's
     // ID in the URL
-    const resposne = yield axios.delete(`/api/shelf/${action.payload.id}`)
+    const response = yield axios.delete(`/api/shelf/${action.payload.id}`)
+    console.log(":::::", response)
   }
   catch (error) {
-    console.log(`Error in removeShelfItem DELETE with ${err}`)
+    console.log(`Error in removeShelfItem DELETE with ${error}`)
     // Exit out of the removeShelfItem function if an error occurred
     return
   }

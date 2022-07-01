@@ -40,7 +40,8 @@ function ShelfPage() {
               <td>
                 <button onClick={()=>{
                   dispatch({
-                    type:item.id
+                    type: "REMOVE_SHELF_ITEM",
+                    payload: item,
                   })
                 }}>
                   DEL
